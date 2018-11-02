@@ -21,12 +21,12 @@ This contains the enrichment analysis statistics. Each row is for a particular g
 
 This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for Relative Risks of each tract group as well as the combined tract set; the bottome panel is a piechart with slices representing the individual tract groups. The slice size is proportional to Relative Risk and the color shade is proportional to enrichment p value. An asterisk indicates statistical significance (p<0.01).
 
-## Deploy
+## Download & Deploy
 Download the polytrap package from github:
 
 git clone https://github.com/hui-sheen/polytrap/
 
-Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=1eGmF-zZi-7FpuBy-AVDx4eFBv02bQkbG). You need to download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
+Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=1eGmF-zZi-7FpuBy-AVDx4eFBv02bQkbG). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (input.all). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
