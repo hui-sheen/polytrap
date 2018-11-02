@@ -1,0 +1,12 @@
+GENOME,NUC,BSGENOME,SIMGFF
+hg38,3096649726,BSgenome.Hsapiens.UCSC.hg38,GCF_000001405.38_GRCh38.p12_genomic.simGff
+hg19,3098825702,BSgenome.Hsapiens.UCSC.hg19,NA
+mm9,2716965481,BSgenome.Mmusculus.UCSC.mm9,NA
+mm10,2730871774,BSgenome.Mmusculus.UCSC.mm10,GCF_000001635.26_GRCm38.p6_genomic.simGff
+rn6,2870184193,BSgenome.Rnorvegicus.UCSC.rn6,GCF_000001895.5_Rnor_6.0_genomic.simGff
+galGal5,1230258557,BSgenome.Ggallus.UCSC.galGal5,NA
+danRer10,1371719383,BSgenome.Drerio.UCSC.danRer10,NA
+dm6,143725995,BSgenome.Dmelanogaster.UCSC.dm6,GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.simGff
+sacCer3,12157105,BSgenome.Scerevisiae.UCSC.sacCer3,GCF_000146045.2_R64_genomic.simGff
+rheMac8,3236224332,BSgenome.Mmulatta.UCSC.rheMac8,ref_Mmul_8.0.1_top_level.simGff3
+canFam3,2410976875,BSgenome.Cfamiliaris.UCSC.canFam3,ref_CanFam3.1_top_level.simGff3
