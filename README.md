@@ -41,7 +41,7 @@ Assume Polytrap does not cover canFam3 (dog), and you want to incorporate this n
 #### Prerequisites
 	<keyname> canFam3 or canfam3 (lower-case)
 	<genomes.meta> need to be updated
-	<chr2NC.txt> need to be updated
+	[optional] <chr2NC.txt> need to be updated
 	[optional] <polytrap/genomes/> need to be populated with NCBI's GFF file for the new genome
 #### Expected output: under polytrap/new/newtracts/, the following files will be generated
 	polytrap_canfam3_single.csv
