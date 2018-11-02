@@ -5,9 +5,9 @@ Polytrap is useful for screening genomic features over-represented (â€œtrappedâ€
 
 ## Quickstart
 	cd polytrap # the root directory of polytrap
-	python polytrap.py -d , -i input/input.all -o out 
+	python polytrap.py -d , -i input.all -o out 
 
-The example input file "input.all" has been included in the tarball as polytrap/input/input.all, where each row corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 3 output files at polytrap/output. 
+You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. This input file must be placed at polytrap/. An example input file "input.all" has been included in the tarball as polytrap/input.all, where each row corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 3 output files at polytrap/output. 
 
 1) out 
 
@@ -75,11 +75,6 @@ For canFam3, a genome of ~2.4G nucleotides, it took ~75 minutes* to generate tra
 
 #### [optional] Step: Test if polytrap works well with the newly incorporated genome (canFam3) 
 	cd polytrap # the root directory of polytrap
-	python polytrap.py -i input/input.all -o canfam3.test -d , -g canFam3
+	python polytrap.py -i input.all -o canfam3.test -d , -g canFam3
 
 *Time estimation was made on such a Ubuntu server: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz, 128G memory, 4 hard disks of 4TB WDC WD40EZRZ-75G 
-
-
-
-
-
