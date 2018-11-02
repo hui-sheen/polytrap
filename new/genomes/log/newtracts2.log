@@ -1,0 +1,11 @@
+newtracts.R is creating tracts/breaks for the following genomes:
+	rheMac8
+	canFam3
+for genome rheMac8 mapped to rhemac8, newtracts.pl annotates all CSVs with GTF ref_Mmul_8.0.1_top_level.simGff3
+for genome canFam3 mapped to canfam3, newtracts.pl annotates all CSVs with GTF ref_CanFam3.1_top_level.simGff3
+calc2stats.R is calculating tract statistics for the following genomes:
+rheMac8
+Calculating tract statistics for genome rheMac8 ...
+canFam3
+Calculating tract statistics for genome canFam3 ...
+JOB DONE!
