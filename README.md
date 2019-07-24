@@ -31,7 +31,7 @@ Because the tracts files for 9 species exceeded repository quota set by GitHub, 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (input.all). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
 
-Other optional arguments pertain to genome (-g), tract group (-t), extension or boundary (-b), hinge or junction (-j and -J), genomic region constraint (-r), and input file specification (-H and -d). Type the following command for a comprehensive help on these options.
+Other optional arguments pertain to genome (-g), tract group (-t), extension or boundary (-b), hinge or junction (-j and -J), genomic region constraint (-r), intersection mode (-I), and input file specification (-H and -d). Type the following command for a comprehensive help on these options.
 
 	python polytrap.py --help
 
