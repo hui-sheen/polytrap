@@ -39,6 +39,7 @@ parser.add_argument("-r", "--region", help = "Consider tracts located only in sp
 parser.add_argument("-H", "--header", help = "1 = yes, 0 = no, default is 1", default="1", choices=["0", "1"])
 
 parser.add_argument("-d", "--delimiter", help = "delimiter for input file, choice are ',' and tab, default is tab", default="t", choices=[",", "t"])
+parser.add_argument("-I","--intsect",help="intersection mode: s for singleton, m for multiplex",default="s",choices=["s","m"])
 args = parser.parse_args()
 if args.delimiter == "t":
  d = "\t"
@@ -52,6 +53,7 @@ boundary = args.boundary
 print "starting polytract enrichment analysis with the following arguments:"
 print "\tgenome = " + args.genome
 print "\tdelimiter = " + args.delimiter
+print "\tintersection = " + args.intsect
 print "\tinput = " + args.input
 print "\toutput = " + args.output
 print "\ttract = " + args.tract
@@ -126,7 +128,7 @@ print "Identify tracts overlapping " + args.input
 output = open("output/"+args.output, "w")
 
 #open an invalid input file
-invalid_input=open("output/"+args.input+".invalid_input.csv", "w")
+invalid_input=open("output/"+args.output+".invalid_input.csv", "w")
 if args.header=="1":
  next(input)
 #merge input against dictionary
@@ -165,32 +167,34 @@ for line in input:
   invalid_input.write(line)
   continue
  #merging starts here
- keyflag=0
+ #keyflag=0
  #print str(start)+ str(end)+str(diff)
  if diff>=1:
+  tract_labels="" # initial empty string
   for i in range(start, end):
    key=words[0]+"_"+str(i)
    if key in D:
-    output.write(line.strip('\n').strip('\r') + d + D[key].strip("\n")+"\n")
-    keyflag=1
-    break
-    
- if keyflag==0:
-  output.write(line.strip('\n').strip('\r') + d + "0\n")
-
+     tract_labels +=  D[key].strip("\n")+";"
+  if tract_labels=="": 
+   output.write(line.strip('\n').strip('\r') + d + "0\n")
+  else:
+   if args.intsect=="s":
+    output.write(line.strip('\n').strip('\r') + d + tract_labels.split(';')[0]+"\n")	
+   else:
+    output.write(line.strip('\n').strip('\r') + d + tract_labels.strip(";")+"\n")
 print "Overlapping examination of "+args.input + " is successful. Output is saved to output/"+args.output
-print "If any invalid input exist, they are saved to output/"+args.input+".invalid_input.csv"
+print "If any invalid input exist, they are saved to output/"+args.output+".invalid_input.csv"
 
 #close file handles
 file.close()
 input.close()
 output.close()
 invalid_input.close()
-if os.stat("output/"+args.input+".invalid_input.csv").st_size==0:
- os.remove("output/"+args.input+".invalid_input.csv")
+if os.stat("output/"+args.output+".invalid_input.csv").st_size==0:
+ os.remove("output/"+args.output+".invalid_input.csv")
 
 print "Conduct enrichment analysis on " + "output/" + args.output
-print "If the R script completes normally, enrichment results are saved to " + "output/" + args.output + ".enrich and " + args.output + ".tif"
+print "If the R script completes normally, enrichment results are saved to " + "output/" + args.output + ".enrich and " + "output/" + args.output + ".tif"
 #calling Rscript to perform statistical analysis
 if args.junction is None:
 	junCommand="breaks=NA" 
@@ -201,8 +205,8 @@ if args.region is not None:
 else:
 	regionCommand="region=NULL" 
 if args.JUNCTION is None:
-	call(["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","arg.t="+args.tract,"b="+str(args.boundary),junCommand,"arg.d='"+ args.delimiter+"'",regionCommand])
+	call(["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'","arg.t="+args.tract,"b="+str(args.boundary),junCommand,"arg.d='"+ args.delimiter+"'",regionCommand])
 else:
 	JUNCommand="BREAKS=paste0('break',1:"+str(args.JUNCTION)+")"
-	call( ["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'",JUNCommand,"arg.d='"+ args.delimiter+"'",regionCommand] )
+	call( ["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'",JUNCommand,"arg.d='"+ args.delimiter+"'",regionCommand] )
 print "ALL DONE"
