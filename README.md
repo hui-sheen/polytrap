@@ -1,25 +1,29 @@
 ## Introduction
 *Polytrap: screening genomic features trapped by polymer tracts*
 
-Polytrap is useful for screening genomic features over-represented (“trapped”) by short tandem repeats (in our terminology: polymer tracts). Polytrap stores pre-extracted polymer tract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224".
+Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). Polytrap stores pre-extracted polymer tract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224".
 
 ## Quickstart
 	cd polytrap # the root directory of polytrap
-	python polytrap.py -d , -i input.all -o out 
+	python polytrap.py -i in.bed -o out 
 
-You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. This input file must be placed at polytrap/. An example input file "input.all" has been included in the tarball as polytrap/input.all, where each row corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 3 output files at polytrap/output. 
+You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. This input file must be placed at polytrap/. Example input files "in.bed" (or "in.csv") has been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at polytrap/output. 
 
 1) out 
 
-This is the foremost output file indicating the overlapping situation between user-given ranges and curated tracts. It has the same number of rows as input.all. The beginning part of each row is exactly the same as in input.all. The last cell in each row has the value "0" if the range does not overlap a tract, otherwise the name of an overlapping tract (e.g., "gc").
+This is the foremost output file indicating the overlapping situation between user-given ranges and curated tracts. It has the same number of rows as in.bed. The beginning part of each row is exactly the same as in in.bed. The last cell in each row has the value "0" if the range does not overlap a tract, otherwise the name of an overlapping tract (e.g., "gc").
 
 2) out.enrich
  
-This contains the enrichment analysis statistics. Each row is for a particular group of tracts, and there might be a bottom row ("Overall") for all groups combined. nucGenome gives the total number of nucleotides in the concerned genome, nucTract gives the total number of nucleotides occupied by the group of tracts, nFeatures_ingenome gives the number of user-supplied ranges (i.e., number of rows in input), nFeatures_intract gives the number of ranges overlapping with a tract. expRate=nFeatures_ingenome/nucGenome; obsRate=nFeatures_intract/nucTract. Relative Risk (RR) can be derived as RR=obsRate/expRate.
+This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. *nucGenome* gives the total number of nucleotides in the concerned genome, *nucTract* gives the total number of nucleotides occupied by the group of tracts, *nFeatures_ingenome* gives the number of user-supplied ranges (i.e., number of rows in input), *nFeatures_intract* gives the number of ranges overlapping with a tract. *expRate=nFeatures_ingenome/nucGenome*; *obsRate=nFeatures_intract/nucTract*. *Relative Risk (RR)* is derived as RR=obsRate/expRate.
 
 3) out.tif
 
-This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for Relative Risks of each tract group as well as the combined tract set; the bottome panel is a piechart with slices representing the individual tract groups. The slice size is proportional to Relative Risk and the color shade is proportional to enrichment p value. An asterisk indicates statistical significance (p<0.01).
+This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract groups. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. The color palette spans over p of [1e-147,1], meaning that the pigment is based on absolute p value rather than a within-assay normalized one. An asterisk indicates statistical significance (p<0.01).
+
+4) out.landscape.tif
+
+The enrichment p value for the Overall row of output file out.enrich is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
 
 ## Download & Deploy
 Download the polytrap package from github:
@@ -29,11 +33,13 @@ Download the polytrap package from github:
 Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=1eGmF-zZi-7FpuBy-AVDx4eFBv02bQkbG). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
 
 ## Arguments
-Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (input.all). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
+Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
 
 Other optional arguments pertain to genome (-g), tract group (-t), extension or boundary (-b), hinge or junction (-j and -J), genomic region constraint (-r), intersection mode (-I), and input file specification (-H and -d). Type the following command for a comprehensive help on these options.
 
 	python polytrap.py --help
+
+hinge (-j) and intersection mode (-I) may be a bit abstract to understand. In a genome, two tandem stretches of polytracts may be separated by only one (or 1~3) nucleotide, in which case we term the separating nucleotide(s) a *hinge* site. We suggest considering 1-nt hinges, although this can be tunable within [1,3]. Intersection mode designates how an overlap between a user-given genomic interval and a polytract is defined and quantified. Under the default *singleton* mode (*-I s*), we regard a genomic interval as a singleton unit, so whenever a spatial overlap appears, we count it as ONE overlap. Under the alternative *multiplex* mode (*-I m*), we regard a genomic interval as a union of its constituent nucleotides, so when a spatial overlap appears, we take into account the number of overlapping nucleotides.  
 
 ## Extension to new genomes
 Assume Polytrap does not cover canFam3 (dog), and you want to incorporate this new genome into Polytrap. You can first move away all \*canfam3\* files at polytrap/tracts, and follow the instructions to test if those files are being generated.
@@ -64,17 +70,17 @@ For canFam3, go to https://www.ncbi.nlm.nih.gov/genome/?term=txid9615[Organism:n
 Chromosome mapping information is available at the bottom of NCBI's species-specific page. This information maps NC_ numbers to more intuitive chromosome names. For example, NC_006583.3 maps to canFam3's chr1. 
 
 #### Step 1: Append genomes.meta file with one genome-specific row.
-Add one more row to the bottom of file polytrap/new/genomes.meta. The comma-separated values correspond to the following sequentially: genome keyname ("canFam3"), Genome nucleotide total (2410976875), BSgenome package name ("BSgenome.Cfamiliaris.UCSC.canFam3"), simplified GFF file name ("ref_CanFam3.1_top_level.simGff3", the file generated in Step 0). If no simplified GFF is available, put "NA" instead.
+Add one more row to the bottom of file polytrap/new/genomes.meta. The comma-separated values correspond to the following sequentially: *genome keyname* ("canFam3"), *Genome nucleotide total* (2410976875), *BSgenome package name* ("BSgenome.Cfamiliaris.UCSC.canFam3"), *simplified GFF file name* ("ref_CanFam3.1_top_level.simGff3", the file generated in Step 0). If no simplified GFF is available, put "NA" instead.
 
 Genome nucleotide total can be Ensembl’s golden path length. For canFam3, this number is available at https://uswest.ensembl.org/Canis_familiaris/Info/Annotation. BSgenome package should be included in the list http://bioconductor.org/packages/release/BiocViews.html#___AnnotationData. For canFam3, the package name is "BSgenome.Cfamiliaris.UCSC.canFam3"  
 
-#### Step 2: Generate tract/hinge files for the new genome. Genomic region will be annotated for the tracts/hinges if Step 0 has been done beforehand.
+#### Step 2: Generate tract and hinge files for the new genome. Genomic region information will be annotated for the each tract and hinge if Step 0 has been done beforehand.
 	cd polytrap/new/
 	./newtracts.sh canFam3 &>log/newtracts.log& #canFam3 can be replaced with the keyname of your specific new genome.
 For canFam3, a genome of ~2.4G nucleotides, it took ~75 minutes* to generate tract files and ~75 minutes* to annotate genomic region for these tracts.
 
 #### [optional] Step: Test if polytrap works well with the newly incorporated genome (canFam3) 
 	cd polytrap # the root directory of polytrap
-	python polytrap.py -i input.all -o canfam3.test -d , -g canFam3
+	python polytrap.py -i in.bed -o canfam3.test -g canFam3
 
 *Time estimation was made on such a Ubuntu server: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz, 128G memory, 4 hard disks of 4TB WDC WD40EZRZ-75G 
