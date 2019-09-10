@@ -1,13 +1,13 @@
 ## Introduction
 *Polytrap: screening genomic features trapped by polytracts (single, di-, tri-nucleotide tandem repeats)*
 
-Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). Polytrap stores pre-extracted polymer tract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224".
+Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). A polytract is identified if the tandem repeat meets the total length requirements, i.e., 6nt for single and di-nucleotide tracts and 9nt for tri-nucleotide tracts. Polytrap stores pre-identified polytract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224".
 
 ## Quickstart
 	cd polytrap # the root directory of polytrap
 	python polytrap.py -i in.bed -o out 
 
-You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. This input file must be placed at polytrap/. Example input files "in.bed" (or "in.csv") has been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at polytrap/output. 
+You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. We suggest putting this input file at the first-level directory (*polytrap/*). Example input files "in.bed" and "in.csv" have been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at *polytrap/output*. 
 
 1) out 
 
@@ -15,15 +15,15 @@ This is the foremost output file indicating the overlapping situation between us
 
 2) out.enrich
  
-This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. *nucGenome* gives the total number of nucleotides in the concerned genome, *nucTract* gives the total number of nucleotides occupied by the group of tracts, *nFeatures_ingenome* gives the number of user-supplied ranges (i.e., number of rows in input), *nFeatures_intract* gives the number of ranges overlapping with a tract. *expRate=nFeatures_ingenome/nucGenome*; *obsRate=nFeatures_intract/nucTract*. *Relative Risk (RR)* is derived as RR=obsRate/expRate.
+This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. *nucGenome* gives the total number of nucleotides in the particular genome (default HG38), *nucTract* gives the total number of nucleotides occupied by a polytract type, *nFeatures_ingenome* gives the number of user-supplied ranges (i.e., number of rows in input), *nFeatures_intract* gives the number of ranges overlapping with a tract. *expRate*=nFeatures_ingenome/nucGenome; *obsRate*=nFeatures_intract/nucTract. *Relative Risk (RR)* is derived as RR=obsRate/expRate.
 
 3) out.tif
 
-This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract groups. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. The color palette spans over p of [1e-147,1], meaning that the pigment is based on absolute p value rather than a within-assay normalized one. An asterisk indicates statistical significance (p<0.01).
+This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
 
 4) out.landscape.tif
 
-The enrichment p value for the Overall row of output file out.enrich is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
+The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
 
 ## Download & Deploy
 Download the polytrap package from github:
@@ -35,11 +35,11 @@ Because the tracts files for 9 species exceeded repository quota set by GitHub, 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
 
-Other optional arguments pertain to genome (-g), tract group (-t), extension or boundary (-b), hinge or junction (-j and -J), genomic region constraint (-r), intersection mode (-I), and input file specification (-H and -d). Type the following command for a comprehensive help on these options.
+Other optional arguments pertain to genome (-g), tract type (-t), extension or boundary (-b), hinge or junction (-j and -J), genomic region constraint (-r), intersection mode (-I), and input file specification (-H and -d). Type the following command for a comprehensive help on these options.
 
 	python polytrap.py --help
 
-hinge (-j) and intersection mode (-I) may be a bit abstract to understand. In a genome, two tandem stretches of polytracts may be separated by only one (or 1~3) nucleotide, in which case we term the separating nucleotide(s) a *hinge* site. We suggest considering 1-nt hinges, although this can be tunable within [1,3]. Intersection mode designates how an overlap between a user-given genomic interval and a polytract is defined and quantified. Under the default *singleton* mode (*-I s*), we regard a genomic interval as a singleton unit, so whenever a spatial overlap appears, we count it as ONE overlap. Under the alternative *multiplex* mode (*-I m*), we regard a genomic interval as a union of its constituent nucleotides, so when a spatial overlap appears, we take into account the number of overlapping nucleotides.  
+Let us explain a bit more about hinge (-j) and intersection mode (-I). In a genome, two tandem stretches of polytracts may be separated by only one (or 1~3) nucleotide, in which case we term the separating nucleotide(s) a *hinge* site. We suggest considering 1-nt hinges, although this can be tunable within [1,3]. Intersection mode designates how an overlap between a user-given genomic interval and a polytract is defined and quantified. Under the default *singleton* mode (*-I s*), we regard a genomic interval as a singleton unit, so whenever a spatial overlap appears, we count it as ONE overlap. Under the alternative *multiplex* mode (*-I m*), we regard a genomic interval as a union of its constituent nucleotides, so when a spatial overlap appears, we take into account the number of overlapping nucleotides.  
 
 ## Extension to new genomes
 Assume Polytrap does not cover canFam3 (dog), and you want to incorporate this new genome into Polytrap. You can first move away all \*canfam3\* files at polytrap/tracts, and follow the instructions to test if those files are being generated.
