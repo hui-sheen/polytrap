@@ -1,5 +1,5 @@
 ## Introduction
-*Polytrap: screening genomic features trapped by polymer tracts*
+*Polytrap: screening genomic features trapped by polytracts (single, di-, tri-nucleotide tandem repeats)*
 
 Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). Polytrap stores pre-extracted polymer tract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224".
 
