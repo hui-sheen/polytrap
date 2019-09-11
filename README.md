@@ -30,7 +30,7 @@ Download the polytrap package from github:
 
 	git clone https://github.com/hui-sheen/polytrap/
 
-Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=1eGmF-zZi-7FpuBy-AVDx4eFBv02bQkbG). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
+Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=16kpdgronJbrJjuRyS2AsXIvGPCogP0ns). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
