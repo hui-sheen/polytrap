@@ -6,7 +6,7 @@ import os
 from argparse import RawTextHelpFormatter
 from subprocess import call
 #error messages
-em1="##########ERROR: OPENING POLYTRACT FILE, polytract resource file may not be installed correctly, please see more detailed error message below:"
+em1="##########ERROR: OPENING POLYTRACT FILE failed, please seek the bulk TRACTS/HINGE files and PLACE them under polytrap/tracts. please see more detailed error message below:"
 em2="##########ERROR: OPENING INPUT FILE, input file may not be supplied correctly, please see more detailed error message below:"
 
 #arguments parsing
