@@ -23,6 +23,7 @@ You must prepare an input file containing genomic ranges with the first three co
 This is the foremost output file indicating the overlapping situation between user-given ranges and curated tracts. It has the same number of rows as in.bed. The beginning part of each row is exactly the same as in in.bed. The last cell in each row has the value "0" if the range does not overlap a tract, otherwise the name of an overlapping tract (e.g., "gc").
 #### 2) out.enrich
 This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. 
+
 Column Name | Meaning
 ------------|--------
 *nFeatures_intract* | number of ranges overlapping with a tract
