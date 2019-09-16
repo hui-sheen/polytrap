@@ -45,7 +45,6 @@ Let us explain a bit more about hinge (-j) and intersection mode (-I). In a geno
 <details>
 	<summary>Polytrap can be extended to uncovered genomes. Click to find detailed instruction!</summary>
 
-
 Assume Polytrap does not cover canFam3 (dog), and you want to incorporate this new genome into Polytrap. You can first move away all \*canfam3\* files at polytrap/tracts, and follow the instructions to test if those files are being generated.
 
 #### Prerequisites
