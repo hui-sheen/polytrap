@@ -14,8 +14,10 @@ Because the tracts files for 9 species exceeded repository quota set by GitHub, 
 	cd polytrap # the root directory of polytrap
 	python polytrap.py -i in.bed -o out 
 
+## Input
 You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. We suggest putting this input file at the first-level directory (*polytrap/*). Example input files "in.bed" and "in.csv" have been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at *polytrap/output*. 
 
+## Output
 1) out 
 
 This is the foremost output file indicating the overlapping situation between user-given ranges and curated tracts. It has the same number of rows as in.bed. The beginning part of each row is exactly the same as in in.bed. The last cell in each row has the value "0" if the range does not overlap a tract, otherwise the name of an overlapping tract (e.g., "gc").
