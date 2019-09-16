@@ -2,6 +2,7 @@
 *Polytrap: screening genomic features trapped by polytracts (single, di-, tri-nucleotide tandem repeats)*
 
 Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). A polytract is identified if the tandem repeat meets the total length requirements, i.e., 6nt for single and di-nucleotide tracts and 9nt for tri-nucleotide tracts. Polytrap stores pre-identified polytract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224". Currently Polytrap can handle 11 genomes of 9 species (human, macaque, mouse, rat, dog, chicken, fugu, fruitfly, and yeast).
+
 ![Polytrap](/output/Polytrap.jpg | width=100)
 
 ## Download & Deploy
