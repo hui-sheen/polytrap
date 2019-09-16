@@ -33,7 +33,7 @@ This figure file translates enrichment statistics to visual display. It has two 
 4) out.landscape.tif
 
 The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
-![out.tif](/output/out.tif)
+![out.tif](/output/out.jpg)
 Format: ![Alt Text](url)
 
 ## Arguments
