@@ -42,6 +42,9 @@ Other optional arguments pertain to genome (-g), tract type (-t), extension or b
 Let us explain a bit more about hinge (-j) and intersection mode (-I). In a genome, two tandem stretches of polytracts may be separated by only one (or 1~3) nucleotide, in which case we term the separating nucleotide(s) a *hinge* site. We suggest considering 1-nt hinges, although this can be tunable within [1,3]. Intersection mode designates how an overlap between a user-given genomic interval and a polytract is defined and quantified. Under the default *singleton* mode (*-I s*), we regard a genomic interval as a singleton unit, so whenever a spatial overlap appears, we count it as ONE overlap. Under the alternative *multiplex* mode (*-I m*), we regard a genomic interval as a union of its constituent nucleotides, so when a spatial overlap appears, we take into account the number of overlapping nucleotides.  
 
 ## Extension to new genomes
+<details>
+	<summary>Polytrap can be extended to uncovered genomes. Click to find detailed instruction!</summary>
+	
 Assume Polytrap does not cover canFam3 (dog), and you want to incorporate this new genome into Polytrap. You can first move away all \*canfam3\* files at polytrap/tracts, and follow the instructions to test if those files are being generated.
 
 #### Prerequisites
@@ -84,3 +87,4 @@ For canFam3, a genome of ~2.4G nucleotides, it took ~75 minutes* to generate tra
 	python polytrap.py -i in.bed -o canfam3.test -g canFam3
 
 *Time estimation was made on such a Ubuntu server: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz, 128G memory, 4 hard disks of 4TB WDC WD40EZRZ-75G 
+</details>
