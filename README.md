@@ -24,16 +24,22 @@ This is the foremost output file indicating the overlapping situation between us
 
 2) out.enrich
  
-This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. *nucGenome* gives the total number of nucleotides in the particular genome (default HG38), *nucTract* gives the total number of nucleotides occupied by a polytract type, *nFeatures_ingenome* gives the number of user-supplied ranges (i.e., number of rows in input), *nFeatures_intract* gives the number of ranges overlapping with a tract. *expRate*=nFeatures_ingenome/nucGenome; *obsRate*=nFeatures_intract/nucTract. *Relative Risk (RR)* is derived as RR=obsRate/expRate.
+This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. 
 
 Column Name | Meaning
 ------------|--------
-nFeatures | number of ranges overlapping with a tract
-nucTract | total number of nucleotides occupied by a polytract type
+*nFeatures_intract* | number of ranges overlapping with a tract
+*nucTract* | total number of nucleotides occupied by a polytract type
+*nFeatures_ingenome* | number of user-supplied ranges (i.e., number of rows in input)
+*nucGenome* | total number of nucleotides in the particular genome (default HG38)
+*pEnrich* | P value calculated under Binomial distribution model
+*obsRate* | *nFeatures_intract/nucTract*
+*expRate* | *nFeatures_ingenome/nucGenome*
+
 
 3) out.tif
 
-This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
+This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* (*obsRate/expRate*) values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
 ![out.tif](/output/out.jpg)
 
 4) out.landscape.tif
