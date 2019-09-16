@@ -13,6 +13,7 @@ Because the tracts files for 9 species exceeded repository quota set by GitHub, 
 ## Quickstart
 	cd polytrap # the root directory of polytrap
 	python polytrap.py -i in.bed -o out 
+Here we are using embedded example input file *in.bed*, and aiming to generate output files as output/ with a prefix *out*. Reference genome HG38 is implicitly selected; single- and di-nucleotide tracts are by default loaded for enrichment analysis. Please check section **Arguments** below for other default argument values.
 
 ## Input
 You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. We suggest putting this input file at the first-level directory (*polytrap/*). Example input files "in.bed" and "in.csv" have been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at *polytrap/output*. 
