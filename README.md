@@ -18,11 +18,11 @@ Because the tracts files for 9 species exceeded repository quota set by GitHub, 
 You must prepare an input file containing genomic ranges with the first three columns for chromosome, start position, and end position. We suggest putting this input file at the first-level directory (*polytrap/*). Example input files "in.bed" and "in.csv" have been included in the tarball at the first-level directory. Each row in an input file corresponds to a genomic range of an instance of the interested genomic feature. In just a few minutes*, the program will generate the following 4 output files at *polytrap/output*. 
 
 ## Output
-1) out 
+#### 1) out 
 
 This is the foremost output file indicating the overlapping situation between user-given ranges and curated tracts. It has the same number of rows as in.bed. The beginning part of each row is exactly the same as in in.bed. The last cell in each row has the value "0" if the range does not overlap a tract, otherwise the name of an overlapping tract (e.g., "gc").
 
-2) out.enrich
+#### 2) out.enrich
  
 This contains the enrichment analysis statistics. Each row is for a particular type of polytracts, and there might be a bottom row ("Overall") for all groups combined. 
 
@@ -36,13 +36,12 @@ Column Name | Meaning
 *obsRate* | *nFeatures_intract/nucTract*
 *expRate* | *nFeatures_ingenome/nucGenome*
 
-
-3) out.tif
+#### 3) out.tif
 
 This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* (*obsRate/expRate*) values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
 ![out.tif](/output/out.jpg)
 
-4) out.landscape.tif
+#### 4) out.landscape.tif
 
 The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
 ![out.tif](/output/out.landscape.jpg)
