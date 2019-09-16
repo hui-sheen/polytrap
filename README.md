@@ -29,12 +29,12 @@ This contains the enrichment analysis statistics. Each row is for a particular t
 3) out.tif
 
 This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
+![out.tif](/output/out.jpg)
 
 4) out.landscape.tif
 
 The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
-![out.tif](/output/out.jpg)
-Format: ![Alt Text](url)
+![out.tif](/output/out.landscape.jpg)
 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
