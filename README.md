@@ -2,6 +2,7 @@
 *Polytrap: screening genomic features trapped by polytracts (single, di-, tri-nucleotide tandem repeats)*
 
 Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). A polytract is identified if the tandem repeat meets the total length requirements, i.e., 6nt for single and di-nucleotide tracts and 9nt for tri-nucleotide tracts. Polytrap stores pre-identified polytract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224". Currently Polytrap can handle 11 genomes of 9 species (human, macaque, mouse, rat, dog, chicken, fugu, fruitfly, and yeast).
+![Polytrap](/output/Polytrap.jpg)
 
 ## Download & Deploy
 Download the polytrap package from github:
@@ -35,12 +36,12 @@ Column Name | Meaning
 *expRate* | *nFeatures_ingenome/nucGenome*
 #### 3) out.tif
 This figure file translates enrichment statistics to visual display. It has two vertically stacked panels. The top panel is a barplot for *RR* (*obsRate/expRate*) values of each polytract type as well as the combined polytract set; the bottome panel is a piechart with slices representing the individual tract types. The slice size is proportional to *RR* values and the color scale is proportional to enrichment *p*. An asterisk indicates statistical significance (p<0.01).
-![out.tif](/output/out.jpg)
+![out.jpg](/output/out.jpg)
 
 #### 4) out.landscape.tif
 
 The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
-![out.tif](/output/out.landscape.jpg)
+![out.landscape.jpg](/output/out.landscape.jpg)
 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
