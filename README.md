@@ -3,6 +3,13 @@
 
 Polytrap is useful for screening genomic features over-represented (“trapped”) by single, di-, or tri-nucleotide tandem repeats (in our terminology: polytracts). A polytract is identified if the tandem repeat meets the total length requirements, i.e., 6nt for single and di-nucleotide tracts and 9nt for tri-nucleotide tracts. Polytrap stores pre-identified polytract ranges, against which the possible enrichment of a specific genomic feature is assessed through the Binomial probability model. The genomic feature must be given with BED-like locations. I.e., the input file must contain such rows as "X,93712222,93712224". Currently Polytrap can handle 11 genomes of 9 species (human, macaque, mouse, rat, dog, chicken, fugu, fruitfly, and yeast).
 
+## Download & Deploy
+Download the polytrap package from github:
+
+	git clone https://github.com/hui-sheen/polytrap/
+
+Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=16kpdgronJbrJjuRyS2AsXIvGPCogP0ns). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
+
 ## Quickstart
 	cd polytrap # the root directory of polytrap
 	python polytrap.py -i in.bed -o out 
@@ -24,13 +31,6 @@ This figure file translates enrichment statistics to visual display. It has two 
 4) out.landscape.tif
 
 The enrichment p value for the Overall row of output file *out.enrich* is taken to draw a red bar in a landscape barplot, where pre-calculated p values for nearly 100 genomic features are depicted as a reference background. In this landscape barplot, p=1e-4 is indicated as a bonferroni corrected significance threshold and all gnomic features exceeding this threshold are labelled in blue text. 
-
-## Download & Deploy
-Download the polytrap package from github:
-
-	git clone https://github.com/hui-sheen/polytrap/
-
-Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=16kpdgronJbrJjuRyS2AsXIvGPCogP0ns). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
 
 ## Arguments
 Two mandatory arguments are -i (--input) and -o (--output). So users must prepare one input file containing genomic ranges. This file should contain three columns, denoting chromosome, start position, and end position, respectively. The field separator can be comma or tab. Please refer to the example input file included in the package (in.bed and in.csv). Besides, the user must also indicate the file name for the output, given as argument -o (--output).
