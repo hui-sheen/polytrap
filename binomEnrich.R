@@ -193,6 +193,8 @@ signifBarplot <- function(enrichTbl,joined='output',landscape='tracts/polytrap_P
 		rownames(landscape) <- landscape$shownName
 		landscape[landscape==0] = 1e-314
 		invP <- -log10(landscape[,'Tri-'])
+		if (enrichTbl['Overall','pEnrich']==0)
+			uInvP <- max(invP)+1 # UPDATE truncate infinitely small user p.
 		invP <- c(invP,uInvP)
 		names(invP) <- c(rownames(landscape),'USER_DATA')
 		invP <- sort(invP,decreasing=T)
