@@ -6,7 +6,7 @@ Polytrap is useful for screening genomic features over-represented (â€œtrappedâ€
 ![Polytrap](/output/Polytrap.jpg)
 
 ## Download & Deploy
-Download the polytrap package from github:
+Polytrap depends on R, Perl, and Python 2 (NOT Python3). Ensure your Linux system has been equipped with these three gadgets, and download the polytrap package from github:
 
 	git clone https://github.com/hui-sheen/polytrap/
 
