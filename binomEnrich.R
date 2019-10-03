@@ -110,7 +110,7 @@ binomEnrich <- function(joined,gn=c('HG38','HG19','MM9','MM10')[1],tracts=tract1
 		nucTract <- nucTract[tracts]
 		nTotTracts <- sum(nucTract)
 		#### Find which tracts are present in joined, possibly extend to a full scope
-    joined[,ncol(joined)] <- gsub('.*\\-','break',joined[,ncol(joined)],perl=T) # assume break values are like ca_A-3, A_T-1
+		joined[,ncol(joined)] <- gsub('.*\\-','break',joined[,ncol(joined)],perl=T) # assume break values are like ca_A-3, A_T-1
 		tractInstances <- strsplit(joined[,ncol(joined)],';')
 		tracts.incidence <- lapply( tracts,function(x,instances) sapply(instances,function(y,x) sum(y==x),x), tractInstances )
 		nEdits_inTract <- switch(intMode,
