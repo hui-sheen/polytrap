@@ -76,23 +76,23 @@ except (OSError, IOError) as e:
 
 #loading polytract files
 def make_tractlist(opt_g, opt_J, opt_t, opt_j):
-        tract_list=[]
-        option_j = {1:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz"],
-        2:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_2.csv.gz"],
-        3:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_2.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_3.csv.gz"]}
-        if opt_J is None:
-                if "1" in opt_t:
-                        tract_list.append("tracts/polytract_"+opt_g.lower()+"_single.csv.gz")
-                if "2" in opt_t:
-                        tract_list.append("tracts/polytract_"+opt_g.lower()+"_di.csv.gz")
-                if "3" in opt_t:
-                        tract_list.append("tracts/polytract_"+opt_g.lower()+"_tri.csv.gz")
-                if opt_j is not None:
+	tract_list=[]
+	option_j = {1:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz"],
+	2:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_2.csv.gz"],
+	3:["tracts/polytract_breaks_"+opt_g.lower()+"_1.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_2.csv.gz", "tracts/polytract_breaks_"+opt_g.lower()+"_3.csv.gz"]}
+	if opt_J is None:
+		if "1" in opt_t:
+			tract_list.append("tracts/polytract_"+opt_g.lower()+"_single.csv.gz")
+		if "2" in opt_t:
+			tract_list.append("tracts/polytract_"+opt_g.lower()+"_di.csv.gz")
+		if "3" in opt_t:
+			tract_list.append("tracts/polytract_"+opt_g.lower()+"_tri.csv.gz")
+		if opt_j is not None:
 			if opt_j in option_j:
-                        	tract_list.extend(option_j[opt_j])
-        elif opt_J in option_j:
-                tract_list.extend(option_j[opt_J])
-        return tract_list
+				tract_list.extend(option_j[opt_j])
+	elif opt_J in option_j:
+		tract_list.extend(option_j[opt_J])
+	return tract_list
 
 tract_list = make_tractlist(args.genome,args.JUNCTION,args.tract,args.junction)
 
