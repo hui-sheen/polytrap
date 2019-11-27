@@ -47,7 +47,7 @@ simplifyGFF <- function(gffFile,chrFile='chr2NC.txt') {
 	cat('FINALLY,',nrow(simGff),'rows remained in',outFile,'\n')
 	simGff <- simGff[order(as.character(gsub('chr','',simGff[,2])),simGff[,3]),]
 	simGff <- unique(simGff)
-	write.table(simGff[,c(2:6)],outFile,row.names=F,sep='\t',quote=F)
+	write.table(unique(simGff[,c(2:6)]),outFile,row.names=F,sep='\t',quote=F)
 	simGff
 }
 gffFiles <- dir('./genomes',pattern='gff',full.names=T) # UPDATE 10/5/2018
