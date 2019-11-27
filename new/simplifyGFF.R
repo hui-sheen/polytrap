@@ -45,8 +45,8 @@ simplifyGFF <- function(gffFile,chrFile='chr2NC.txt') {
 	simGff[,5] <- gsub('lnc_RNA','lncRNA',simGff[,5])
 	outFile <- gsub('.gz','',gsub('gff','simGff',gffFile),fixed=T)
 	cat('FINALLY,',nrow(simGff),'rows remained in',outFile,'\n')
-	simGff <- unique(simGff)
 	simGff <- simGff[order(as.character(gsub('chr','',simGff[,2])),simGff[,3]),]
+	simGff <- unique(simGff)
 	write.table(simGff[,c(2:6)],outFile,row.names=F,sep='\t',quote=F)
 	simGff
 }
