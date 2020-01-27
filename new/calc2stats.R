@@ -1,3 +1,4 @@
+# UPDATE 1/15/20 to reflect new series of meta-types, particularly two Single-types & two DI-types.
 # groupTri() is utilized mainly to indicate the order of the 10 tri-types.
 # groupTri() <- splitByType().
 groupTri <- function() {
@@ -27,8 +28,8 @@ groupTri <- function() {
 # splitByType() <- get2statByList()
 # INPUT tract0: a data.frame with read-in tracts. Can be stacked tracts of diverse types (single, di, tri, and breaks).
 splitByType <- function(tract0) {
-	tract1 <- c('A','T','C','G')
-	tract2 <- tolower(c('TA','GA','CA','GT','CT','GC'))
+	tract1 <- c('A/T','C/G') #c('A','T','C','G')
+	tract2 <- c('ta','ct/ga','ca/gt','gc') #tolower(c('TA','GA','CA','GT','CT','GC')) # Use lower-case to denote 6 dinuc types.
 	tract3 <- names(groupTri())
 	tract.types <- c(tract1,tract2,tract3)
 	Type <- factor(tract0[,4],levels=tract.types,ordered=T)#levels=intersect(tract.types,unique(tract0[,4])),ordered=T) # UPDATE 9/28
