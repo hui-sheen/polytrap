@@ -1,4 +1,6 @@
-# Rscript binomEnrich.R joined='example.out' gn='hg38' intMode='s' arg.t=12 b=1 breaks='break123' arg.d=',' region=NULL
+# TODO: update polytract_*_stats.txt files, merging rows for trimmed MNRs & DNRs, updating unreduced TNRs.
+# TODO: update *single|di.csv.gz, replacing certain old type names with new type names. Single: 4 -> 2; Di: 6 -> 4
+# Rscript binomEnrich.R joined='example.out' gn='hg38' intMode='s' arg.t=12 b=1 arg.d=',' region=NULL
 ##### OBJECTIVE: 1.to calculate Binomial probability of feature enrichment within tracts; 2.visualize the enrichment (increased risk) in barplot & pieplot; 3.visualize overall enrichP height in background of 100-feature landscape.
 ##### INPUT 1: prior python output file (-o argument) 
 ##### INPUT 2: genome (-g argument)
@@ -37,8 +39,8 @@ groupTri <- function() {
 	names(triGroups) <- tolower(triG10)
 	triGroups
 }
-tract1 <- c('A','T','C','G')
-tract2 <- tolower(c('TA','GA','CA','GT','CT','GC')) # Use lower-case to denote 6 dinuc types.
+tract1 <- c('A/T','C/G') #c('A','T','C','G')
+tract2 <- c('ta','ct/ga','ca/gt','gc') #tolower(c('TA','GA','CA','GT','CT','GC')) # Use lower-case to denote 6 dinuc types.
 tract3 <- names(groupTri())
 tract12 <- c(tract1,tract2)
 tract23 <- c(tract2,tract3)
@@ -49,10 +51,14 @@ tract123 <- c(tract1,tract2,tract3)
 ##### INPUT nTotTracts: total nucleotides occupupied by tracts.
 ##### INPUT nEdits: total nucleotides in genome occupied by the interested feature.
 ##### INPUT nTotal: total nucleotides in genome. A fixed number dependent on genome choice (say, HG19 or HG38).
-enrichStats_perType <- function(nEdits_inTract,nTotTracts,nEdits,nTotal) {
+enrichStats_perType <- function(nEdits_inTract,nTotTracts,nEdits,nTotal,direct=c('over','under')[1]) {
 	prob <- nEdits/nTotal
 	if (nEdits_inTract!=0) {
-		pEnrich <- pbinom(q=nEdits_inTract,size=nTotTracts,prob=prob,lower.tail=F)
+		if (direct=='over') {
+			pEnrich <- pbinom(q=nEdits_inTract,size=nTotTracts,prob=prob,lower.tail=F)
+		} else {
+			pEnrich <- pbinom(q=nEdits_inTract,size=nTotTracts,prob=prob,lower.tail=T)
+		}
 	} else {
 		pEnrich = NA
 	}
@@ -69,7 +75,7 @@ enrichStats_perType <- function(nEdits_inTract,nTotTracts,nEdits,nTotal) {
 ##### INPUT headed: file has header? Python-precossed joined file always has no header.
 ##### NOTE: this function reads in files on tract statistics, e.g., tracts/polytract_hg38_stats.txt
 ##### NOTE: this function may takes value of global variable gnNucs (above).
-binomEnrich <- function(joined,gn=c('HG38','HG19','MM9','MM10')[1],tracts=tract123,b=c(1,2,3,0)[1],arg.d=',',intMode=c('s','m')[1],region=NULL,headed=F) {
+binomEnrich <- function(joined,gn=c('HG38','HG19','MM9','MM10')[1],tracts=tract123,b=c(1,2,3,0)[1],arg.d=',',intMode=c('s','m')[1],direct='over',region=NULL,headed=F) {
 	#### Read in previous output file (joined)
 	if (arg.d==',') {
 		joined <- unique(read.csv(paste('output',joined,sep='/'),header=headed,as.is=T))
@@ -110,7 +116,7 @@ binomEnrich <- function(joined,gn=c('HG38','HG19','MM9','MM10')[1],tracts=tract1
 		nucTract <- nucTract[tracts]
 		nTotTracts <- sum(nucTract)
 		#### Find which tracts are present in joined, possibly extend to a full scope
-		joined[,ncol(joined)] <- gsub('.*\\-','break',joined[,ncol(joined)],perl=T) # assume break values are like ca_A-3, A_T-1
+    joined[,ncol(joined)] <- gsub('.*\\-','break',joined[,ncol(joined)],perl=T) # assume break values are like ca_A-3, A_T-1
 		tractInstances <- strsplit(joined[,ncol(joined)],';')
 		tracts.incidence <- lapply( tracts,function(x,instances) sapply(instances,function(y,x) sum(y==x),x), tractInstances )
 		nEdits_inTract <- switch(intMode,
@@ -119,12 +125,12 @@ binomEnrich <- function(joined,gn=c('HG38','HG19','MM9','MM10')[1],tracts=tract1
 		)
 		names(nEdits_inTract) <- tracts
 		#### For subtype-rows and overall-row generate four numbers and expRate,obsRate, and p.binom. 
-		stats.perType <- mapply(enrichStats_perType,nEdits_inTract,nucTract,n_hgEdit,nTotal)
+		stats.perType <- mapply(enrichStats_perType,nEdits_inTract,nucTract,n_hgEdit,nTotal,direct)
 		nE_inTract_total <- switch(intMode,
 			s=nrow(joined),
 			m=sum(sapply(tractInstances,length))
 		)
-		stat.whole <- enrichStats_perType(nE_inTract_total,nTotTracts,n_hgEdit,nTotal)
+		stat.whole <- enrichStats_perType(nE_inTract_total,nTotTracts,n_hgEdit,nTotal,direct)
 		enrichTbl <- cbind(stats.perType,stat.whole)
 		enrichTbl <- t(enrichTbl)
 		rownames(enrichTbl)[-nrow(enrichTbl)] <- tracts
@@ -193,8 +199,6 @@ signifBarplot <- function(enrichTbl,joined='output',landscape='tracts/polytrap_P
 		rownames(landscape) <- landscape$shownName
 		landscape[landscape==0] = 1e-314
 		invP <- -log10(landscape[,'Tri-'])
-		if (enrichTbl['Overall','pEnrich']==0)
-			uInvP <- max(invP)+1 # UPDATE truncate infinitely small user p.
 		invP <- c(invP,uInvP)
 		names(invP) <- c(rownames(landscape),'USER_DATA')
 		invP <- sort(invP,decreasing=T)
@@ -221,14 +225,14 @@ for (i in 1:length(args)) {
 }
 if (exists('BREAKS')) {
 	tracts=BREAKS	
-	enrichTbl <- binomEnrich(joined,gn,tracts,0,arg.d,intMode,region)
+	enrichTbl <- binomEnrich(joined,gn,tracts,0,arg.d,intMode,direct,region)
 } else {
 	tractsCmmd=paste0('tracts=tract',arg.t)
 	eval(parse(text=tractsCmmd))
 	if (!any(is.na(breaks))) {
 		tracts=c(tracts,breaks)
 	}
-	enrichTbl <- binomEnrich(joined,gn,tracts,b,arg.d,intMode,region)
+	enrichTbl <- binomEnrich(joined,gn,tracts,b,arg.d,intMode,direct,region)
 }
 write.table(enrichTbl,paste0('output/',joined,'.enrich'),sep='\t',quote=F,col.names=NA)
 if (nrow(enrichTbl)>0) {

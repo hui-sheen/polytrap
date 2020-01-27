@@ -40,6 +40,8 @@ parser.add_argument("-H", "--header", help = "1 = yes, 0 = no, default is 1", de
 
 parser.add_argument("-d", "--delimiter", help = "delimiter for input file, choice are ',' and tab, default is tab", default="t", choices=[",", "t"])
 parser.add_argument("-I","--intsect",help="intersection mode: s for singleton, m for multiplex",default="s",choices=["s","m"])
+
+parser.add_argument("-D", "--directionality", help = "directionality of enrichment test, choices are (default) over-representation and under-representation",choices=["over","under"],default="over")
 args = parser.parse_args()
 if args.delimiter == "t":
  d = "\t"
@@ -205,8 +207,8 @@ if args.region is not None:
 else:
 	regionCommand="region=NULL" 
 if args.JUNCTION is None:
-	call(["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'","arg.t="+args.tract,"b="+str(args.boundary),junCommand,"arg.d='"+ args.delimiter+"'",regionCommand])
+	call(["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'","arg.t="+args.tract,"b="+str(args.boundary),junCommand,"arg.d='"+ args.delimiter+"'","direct='"+args.directionality+"'",regionCommand])
 else:
 	JUNCommand="BREAKS=paste0('break',1:"+str(args.JUNCTION)+")"
-	call( ["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'",JUNCommand,"arg.d='"+ args.delimiter+"'",regionCommand] )
+	call( ["Rscript","binomEnrich.R","joined='"+args.output+"'","gn='"+args.genome+"'","intMode='"+args.intsect+"'",JUNCommand,"arg.d='"+ args.delimiter+"'","direct='"+args.directionality+"'",regionCommand] )
 print "ALL DONE"
