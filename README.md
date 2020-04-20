@@ -10,7 +10,7 @@ Polytrap depends on **R, Perl, and Python 2** (NOT Python3). Ensure your Linux s
 
 	git clone https://github.com/hui-sheen/polytrap/
 
-Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (https://drive.google.com/open?id=16kpdgronJbrJjuRyS2AsXIvGPCogP0ns). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
+Because the tracts files for 9 species exceeded repository quota set by GitHub, we put all tract files elsewhere (http://innovebioinfo.com/Annotation/Polytracts/tracts.htm). You MUST download the tract files, and place them (*.csv.gz files) at polytrap/tracts/.
 
 ## Quickstart
 	cd polytrap # the root directory of polytrap
